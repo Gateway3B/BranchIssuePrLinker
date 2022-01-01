@@ -1,0 +1,12 @@
+name: 'Branch Issue Pr Linker'
+description: 'Validates branch name against format: {feature or bug}/{issue number}/This-Is-A-Feature-Or-A-Bug. On push creates a new pr linked to issue. On PR, revalidates branch name and asserts only 1 commit.'
+inputs:
+  github-token:
+    description: 'Token for action'
+    require: true
+  pr-commit-message:
+    description: 'Message from commit to be used in pr.'
+    requried: true
+runs:
+  using: 'node12'
+  main: 'index.js'

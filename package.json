@@ -1,0 +1,15 @@
+{
+  "name": "branchissueprlinker",
+  "version": "1.0.0",
+  "description": "GitHub Action that links a PR to an issue based on branch name.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Gateway3B",
+  "license": "ISC",
+  "dependencies": {
+    "@actions/core": "^1.6.0",
+    "@actions/github": "^5.0.0"
+  }
+}
