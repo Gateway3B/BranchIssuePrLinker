@@ -8480,14 +8480,14 @@ async function action() {
 async function push() {
     const results = await octokit.rest.repos.listPullRequestsAssociatedWithCommit({
         owner: context.repo.owner, 
-        repo: context.repo.name,
+        repo: context.repo.repo,
         commit_sha: context.sha
     });
 
     if(results.data.filter(pr => pr.state === 'open').length() === 0) {
         octokit.rest.pulls.create({
             owner: context.repo.owner, 
-            repo: context.repo.name,
+            repo: context.repo.repo,
             title: getInput('pr-commit-message', { require: true }),
             head: branchName,
             base: 'develop',
@@ -8506,7 +8506,7 @@ async function push() {
 async function pullRequest() {
     const pull = await octokit.rest.pulls.get({
         owner: context.repo.owner, 
-        repo: context.repo.name,
+        repo: context.repo.repo,
         pull_number: context.payload.pull_request.number
     }).catch(err => {
         core.setFailed('Pull request does not exist. Please create pull request.');
@@ -8531,13 +8531,10 @@ function validateBranchName(branchName) {
 
 async function validateIssue(branchName) {
     const issueNumber = branchName.split('/')[1];
-    info(issueNumber);
-    info(context.repo.owner);
-    info(context.repo.name);
     await octokit.rest.issues.get(
         { 
             owner: context.repo.owner, 
-            repo: context.repo.name,
+            repo: context.repo.repo,
             issue_number: issueNumber
         }
     ).catch(err => {
