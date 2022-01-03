@@ -1,4 +1,4 @@
-const { getInput, setFailed, info } = require('@actions/core');
+const { getInput, setFailed, info, warning } = require('@actions/core');
 const { getOctokit, context } = require('@actions/github');
 
 const regex = /(feature|bug){1}\/[0-9]+\/[A-Z]{1}([a-z]|[A-Z]|[0-9]|-[A-Z]{1})*/g;
@@ -76,8 +76,7 @@ async function pullRequest() {
     await validateIssue();
 
     if(pull.data.commits > 1) {
-        setFailed('PRs can only have one commit. Please sqaush your commits down.')
-        throw new Error();
+        warning('PRs should only have one commit. Please sqaush your commits down.')
     }
 
     info('Pull Request Validated');

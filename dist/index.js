@@ -8442,7 +8442,7 @@ module.exports = JSON.parse('[[[0,44],"disallowed_STD3_valid"],[[45,46],"valid"]
 var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
 (() => {
-const { getInput, setFailed, info } = __nccwpck_require__(2345);
+const { getInput, setFailed, info, warning } = __nccwpck_require__(2345);
 const { getOctokit, context } = __nccwpck_require__(4566);
 
 const regex = /(feature|bug){1}\/[0-9]+\/[A-Z]{1}([a-z]|[A-Z]|[0-9]|-[A-Z]{1})*/g;
@@ -8520,8 +8520,7 @@ async function pullRequest() {
     await validateIssue();
 
     if(pull.data.commits > 1) {
-        setFailed('PRs can only have one commit. Please sqaush your commits down.')
-        throw new Error();
+        warning('PRs should only have one commit. Please sqaush your commits down.')
     }
 
     info('Pull Request Validated');
