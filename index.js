@@ -36,7 +36,7 @@ async function push() {
     });
 
     if(results.data.filter(pr => pr.state === 'open').length() === 0) {
-        getOctokit(token).rest.pulls.create({
+        octokit.rest.pulls.create({
             owner: context.repo.owner, 
             repo: context.repo.name,
             title: getInput('pr-commit-message', { require: true }),
@@ -77,7 +77,7 @@ function validateBranchName(branchName) {
 
 async function validateIssue(branchName) {
     const issueNumber = branchName.split('/')[1];
-    await getOctokit().rest.issues.get(
+    await octokit.rest.issues.get(
         { 
             owner: github.context.payload.repository.owner, 
             repo: github.context.payload.repository.name,
