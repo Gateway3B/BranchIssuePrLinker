@@ -14,12 +14,12 @@ async function action() {
 
     switch(context.eventName) {
         case 'push':
-            info('Processing Push.');
+            info('Processing Push');
             await push();
             break;
             
         case 'pull_request':
-            info('Processing Pull Request.');
+            info('Processing Pull Request');
             await pullRequest();
             break;
 
