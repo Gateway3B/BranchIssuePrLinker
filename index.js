@@ -1,5 +1,6 @@
 const { getInput, setFailed, info } = require('@actions/core');
 const { getOctokit, context } = require('@actions/github');
+const { GitHub } = require('@actions/github/lib/utils');
 
 const regex = /(feature|bug){1}\/[0-9]+\/[A-Z]{1}([a-z]|[A-Z]|[0-9]|-[A-Z]{1})*/g;
 const token = getInput('github-token', { require: true });
@@ -79,8 +80,8 @@ async function validateIssue(branchName) {
     const issueNumber = branchName.split('/')[1];
     await octokit.rest.issues.get(
         { 
-            owner: github.context.payload.repository.owner, 
-            repo: github.context.payload.repository.name,
+            owner: context.payload.repository.owner, 
+            repo: context.payload.repository.name,
             issue_number: issueNumber
         }
     ).catch(err => {
