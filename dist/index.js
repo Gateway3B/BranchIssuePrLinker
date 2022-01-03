@@ -8442,7 +8442,7 @@ module.exports = JSON.parse('[[[0,44],"disallowed_STD3_valid"],[[45,46],"valid"]
 var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
 (() => {
-const { getInput, setFailed, info, error } = __nccwpck_require__(2345);
+const { getInput, setFailed, info } = __nccwpck_require__(2345);
 const { getOctokit, context } = __nccwpck_require__(4566);
 
 const regex = /(feature|bug){1}\/[0-9]+\/[A-Z]{1}([a-z]|[A-Z]|[0-9]|-[A-Z]{1})*/g;
@@ -8465,7 +8465,6 @@ async function action() {
                 break;
     
             default:
-                error('Invalid Event');
                 setFailed('Invalid Event');
         }
     } catch(err) {}
@@ -8478,13 +8477,15 @@ async function push() {
         
     await validateIssue();
 
-    const results = await octokit.rest.repos.listPullRequestsAssociatedWithCommit({
+    const results = await octokit.rest.pulls.list({
         owner: context.repo.owner, 
         repo: context.repo.repo,
-        commit_sha: context.sha
-    });
+        state: 'open',
+        head: this.branchName,
+        base: 'develop'
+    })
 
-    if(results.data.filter(pr => pr.state === 'open').length === 0) {
+    if(results.data.length === 0) {
         await octokit.rest.pulls.create({
             owner: context.repo.owner,
             repo: context.repo.repo,
@@ -8492,7 +8493,6 @@ async function push() {
             base: 'develop',
             issue: issueNumber
         }).catch(err => {
-            error('Error Creating Pull Request');
             setFailed('Error Creating Pull Request');
             throw err;
         });
@@ -8509,7 +8509,6 @@ async function pullRequest() {
         repo: context.repo.repo,
         pull_number: context.payload.pull_request.number
     }).catch(err => {
-        error('Pull request does not exist. Please create pull request.');
         setFailed('Pull request does not exist. Please create pull request.');
         throw err;
     });
@@ -8521,7 +8520,6 @@ async function pullRequest() {
     await validateIssue();
 
     if(pull.data.commits > 1) {
-        error('PRs can only have one commit. Please sqaush your commits down.')
         setFailed('PRs can only have one commit. Please sqaush your commits down.')
         throw new Error();
     }
@@ -8531,7 +8529,6 @@ async function pullRequest() {
 
 function validateBranchName() {
     if(!this.branchName.match(regex)) {
-        error('Branch name does not match. ex: feature/132/This-Is-A-Feature');
         setFailed('Branch name does not match. ex: feature/132/This-Is-A-Feature');
         throw new Error();
     }
@@ -8547,7 +8544,6 @@ async function validateIssue() {
             issue_number: issueNumber
         }
     ).catch(err => {
-        error(`Branch issue number does not exist #${issueNumber}. ex: feature/132/This-Is-A-Feature; Issue #132 does not exist.`);
         setFailed(`Branch issue number does not exist #${issueNumber}. ex: feature/132/This-Is-A-Feature; Issue #132 does not exist.`);
         throw err;
     });
