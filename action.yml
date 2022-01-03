@@ -4,9 +4,6 @@ inputs:
   github-token:
     description: 'Token for action'
     require: true
-  pr-commit-message:
-    description: 'Message from commit to be used in pr.'
-    requried: true
 runs:
   using: 'node12'
   main: 'dist/index.js'

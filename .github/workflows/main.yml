@@ -10,4 +10,3 @@ jobs:
         uses: Gateway3B/BranchIssuePrLinker@main
         with:
           github-token: ${{ github.token }}
-          pr-commit-message: ${{ github.event.commits[0].message }}
