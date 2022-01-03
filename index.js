@@ -9,23 +9,27 @@ const branchName = context.ref.replace('refs/heads/', '');
 let issueNumber;
 
 async function action() {
-    validateBranchName(branchName);
+    try {
+        validateBranchName(branchName);
+        
+        issueNumber = validateIssue(branchName);
     
-    issueNumber = validateIssue(branchName);
-
-    switch(context.eventName) {
-        case 'push':
-            info('Processing Push');
-            await push();
-            break;
-            
-        case 'pull_request':
-            info('Processing Pull Request');
-            await pullRequest();
-            break;
-
-        default:
-            setFailed('Invalid Event');
+        switch(context.eventName) {
+            case 'push':
+                info('Processing Push');
+                await push();
+                break;
+                
+            case 'pull_request':
+                info('Processing Pull Request');
+                await pullRequest();
+                break;
+    
+            default:
+                setFailed('Invalid Event');
+        }
+    } catch(err) {
+        throw err;
     }
 }
 
@@ -44,6 +48,9 @@ async function push() {
             head: branchName,
             base: 'develop',
             issue: issueNumber
+        }).catch(err =>{
+            setFailed('Error Creating Pull Request');
+            throw err;
         });
 
         info('New Pull Request Created')
@@ -57,7 +64,7 @@ async function pullRequest() {
         pull_number: context.payload.pull_request.number
     }).catch(err => {
         core.setFailed('Pull request does not exist. Please create pull request.');
-        throw new Error(err);
+        throw err;
     });
 
     if(pull.data.commits > 1) {
@@ -80,13 +87,13 @@ async function validateIssue(branchName) {
     const issueNumber = branchName.split('/')[1];
     await octokit.rest.issues.get(
         { 
-            owner: context.payload.repository.owner, 
-            repo: context.payload.repository.name,
+            owner: context.repo.owner, 
+            repo: context.repo.name,
             issue_number: issueNumber
         }
     ).catch(err => {
         setFailed(`Branch issue number does not exist #${issueNumber}. ex: feature/132/This-Is-A-Feature; Issue #132 does not exist.`);
-        throw new Error(err);
+        throw err;
     });
 
     info('Issue Number Validated')
@@ -97,5 +104,5 @@ async function validateIssue(branchName) {
 try {
     action();
 } catch {
-    setFailed('Internal Action Error');
+    // setFailed('Internal Action Error');
 }
