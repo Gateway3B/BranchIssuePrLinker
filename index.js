@@ -1,6 +1,5 @@
 const { getInput, setFailed, info } = require('@actions/core');
 const { getOctokit, context } = require('@actions/github');
-const { GitHub } = require('@actions/github/lib/utils');
 
 const regex = /(feature|bug){1}\/[0-9]+\/[A-Z]{1}([a-z]|[A-Z]|[0-9]|-[A-Z]{1})*/g;
 const token = getInput('github-token', { require: true });
@@ -44,7 +43,6 @@ async function push() {
         octokit.rest.pulls.create({
             owner: context.repo.owner,
             repo: context.repo.repo,
-            title: getInput('pr-commit-message', { require: true }),
             head: branchName,
             base: 'develop',
             issue: issueNumber

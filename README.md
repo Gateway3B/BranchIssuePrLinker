@@ -30,15 +30,10 @@ It will also assert only one commit in the pull request.
 
 **Required** The github token provided by the action.
 
-### `pr-commit-message`
-
-**Requred** The commit message to be used as the message for any created prs.
-
 ## Example Usage
 
 ```
 uses: Gateway3B/BranchIssuePrLinker@master
 with:
     github-token: ${{ github.token }}
-    pr-commit-message: ${{ github.event.commits[0].message }}
 ```
