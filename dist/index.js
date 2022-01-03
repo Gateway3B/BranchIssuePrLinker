@@ -8488,6 +8488,8 @@ async function push() {
             base: 'develop',
             issue: issueNumber
         });
+
+        info('New Pull Request Created')
     }
 }
 
@@ -8505,6 +8507,8 @@ async function pullRequest() {
         setFailed('PRs can only have one commit. Please sqaush your commits down.')
         throw new Error();
     }
+
+    info('Pull Request Validated');
 }
 
 function validateBranchName(branchName) {
@@ -8512,6 +8516,7 @@ function validateBranchName(branchName) {
         setFailed('Branch name does not match. ex: feature/132/This-Is-A-Feature');
         throw new Error();
     }
+    info('Branch Name Validated')
 }
 
 async function validateIssue(branchName) {
@@ -8526,6 +8531,8 @@ async function validateIssue(branchName) {
         setFailed('Branch issue number does not exist. ex: feature/132/This-Is-A-Feature; Issue #132 does not exist.');
         throw err;
     });
+
+    info('Issue Number Validated')
 
     return issueNumber;
 }
