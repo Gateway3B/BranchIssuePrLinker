@@ -14,11 +14,11 @@ async function action() {
 
     switch(context.eventName) {
         case 'push':
-            push();
+            await push();
             break;
 
         case 'pull_request':
-            pullRequest();
+            await pullRequest();
             break;
 
         default:
@@ -26,7 +26,7 @@ async function action() {
     }
 }
 
-function push() {
+async function push() {
     const results = await octokit.rest.repos.listPullRequestsAssociatedWithCommit({
         owner: context.repo.owner, 
         repo: context.repo.name,
@@ -45,7 +45,7 @@ function push() {
     }
 }
 
-function pullRequest() {
+async function pullRequest() {
     const pull = await octokit.rest.pulls.get({
         owner: context.repo.owner, 
         repo: context.repo.name,
