@@ -1,4 +1,8 @@
-on: [push, pull_request]
+on:
+  push:
+    branches-ignore: [ main, develop ]
+  pull_request:
+    branches: [ develop ]
 
 jobs:
   linker:
