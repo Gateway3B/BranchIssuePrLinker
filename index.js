@@ -87,9 +87,9 @@ function validateBranchName(branchName) {
 
 async function validateIssue(branchName) {
     const issueNumber = branchName.split('/')[1];
-    setInfo(issueNumber);
-    setInfo(context.repo.owner);
-    setInfo(context.repo.name);
+    info(issueNumber);
+    info(context.repo.owner);
+    info(context.repo.name);
     await octokit.rest.issues.get(
         { 
             owner: context.repo.owner, 
