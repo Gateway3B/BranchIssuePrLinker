@@ -8445,7 +8445,7 @@ var __webpack_exports__ = {};
 const { getInput, setFailed, info } = __nccwpck_require__(2345);
 const { getOctokit, context } = __nccwpck_require__(4566);
 
-const regex = "/(feature|bug){1}\/[0-9]+\/[A-Z]{1}([a-z]|[A-Z]|[0-9]|-[A-Z]{1})*/g)";
+const regex = "/(feature|bug){1}\/[0-9]+\/[A-Z]{1}([a-z]|[A-Z]|[0-9]|-[A-Z]{1})*/g";
 const token = getInput('github-token', { require: true });
 const octokit = getOctokit(token);
 const branchName = context.ref.replace('refs/heads/', '');
