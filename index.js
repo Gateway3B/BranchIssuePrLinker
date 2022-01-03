@@ -88,7 +88,6 @@ async function validateIssue(branchName) {
 
 try {
     action();
-    
 } catch {
     setFailed('Internal Action Error');
 }
