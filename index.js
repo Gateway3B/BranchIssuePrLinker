@@ -42,13 +42,13 @@ async function push() {
 
     if(results.data.filter(pr => pr.state === 'open').length === 0) {
         octokit.rest.pulls.create({
-            owner: context.repo.owner, 
+            owner: context.repo.owner,
             repo: context.repo.repo,
             title: getInput('pr-commit-message', { require: true }),
             head: branchName,
             base: 'develop',
             issue: issueNumber
-        }).catch(err =>{
+        }).catch(err => {
             setFailed('Error Creating Pull Request');
             throw err;
         });
@@ -86,7 +86,7 @@ function validateBranchName(branchName) {
 }
 
 async function validateIssue(branchName) {
-    const issueNumber = branchName.split('/')[1];
+    const issueNumber = parseInt(branchName.split('/')[1], 10);
     await octokit.rest.issues.get(
         { 
             owner: context.repo.owner, 
