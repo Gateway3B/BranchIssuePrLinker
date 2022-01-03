@@ -40,7 +40,7 @@ async function push() {
         commit_sha: context.sha
     });
 
-    if(results.data.filter(pr => pr.state === 'open').length() === 0) {
+    if(results.data.filter(pr => pr.state === 'open').length === 0) {
         octokit.rest.pulls.create({
             owner: context.repo.owner, 
             repo: context.repo.repo,
