@@ -85,8 +85,8 @@ async function validateIssue(branchName) {
             issue_number: issueNumber
         }
     ).catch(err => {
-        setFailed('Branch issue number does not exist. ex: feature/132/This-Is-A-Feature; Issue #132 does not exist.');
-        throw err;
+        setFailed(`Branch issue number does not exist #${issueNumber}. ex: feature/132/This-Is-A-Feature; Issue #132 does not exist.`);
+        throw new Error(err);
     });
 
     info('Issue Number Validated')
