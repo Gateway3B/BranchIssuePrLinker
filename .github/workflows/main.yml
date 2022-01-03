@@ -11,3 +11,5 @@ jobs:
         with:
           github-token: ${{ github.token }}
           pr-commit-message: ${{ github.event.commits[0].message }}
+      - name: print
+        run: echo "PR-Commit-Message - ${{ github.event.commits[0].message }}"
