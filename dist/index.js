@@ -8456,7 +8456,7 @@ async function action() {
     try {
         validateBranchName(branchName);
         
-        issueNumber = validateIssue(branchName);
+        issueNumber = await validateIssue(branchName);
     
         switch(context.eventName) {
             case 'push':
@@ -8497,7 +8497,9 @@ async function push() {
             throw err;
         });
 
-        info('New Pull Request Created')
+        info('New Pull Request Created');
+    } else {
+        info('Pull Request Already Open');
     }
 }
 
@@ -8529,6 +8531,9 @@ function validateBranchName(branchName) {
 
 async function validateIssue(branchName) {
     const issueNumber = branchName.split('/')[1];
+    setInfo(issueNumber);
+    setInfo(context.repo.owner);
+    setInfo(context.repo.name);
     await octokit.rest.issues.get(
         { 
             owner: context.repo.owner, 
