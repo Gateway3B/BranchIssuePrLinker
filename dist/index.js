@@ -8491,7 +8491,7 @@ async function push() {
             repo: context.repo.repo,
             head: this.branchName,
             base: 'develop',
-            issue: issueNumber
+            issue: this.issueNumber
         }).catch(err => {
             setFailed('Error Creating Pull Request');
             throw err;
