@@ -1,7 +1,7 @@
 name: 'Branch Issue Pr Linker'
 description: 'Validates branch name against format: {feature or bug}/{issue number}/This-Is-A-Feature-Or-A-Bug. AutoCreates PRs.'
 branding:
-  icon: 'check'
+  icon: 'git-pull-request'
   color: 'green'
 inputs:
   github-token:
