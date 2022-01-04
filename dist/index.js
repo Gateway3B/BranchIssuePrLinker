@@ -8483,13 +8483,13 @@ async function push() {
         state: 'open',
         head: this.branchName,
         base: 'develop'
-    })
+    });
 
     if(results.data.length === 0) {
         await octokit.rest.pulls.create({
             owner: context.repo.owner,
             repo: context.repo.repo,
-            head: branchName,
+            head: this.branchName,
             base: 'develop',
             issue: issueNumber
         }).catch(err => {
